@@ -38,8 +38,31 @@ module.exports = {
 
   users: {
     // Ditto as above.
-    get: function () {},
-    post: function () {}
+    get: function (callback) {
+      var connection = db.getConnection();
+
+      connection.connect();
+      connection.query("SELECT * FROM users", function(err, rows, fields) {
+        if (!err){
+          callback(rows);
+
+        } else {
+          console.log("Error fetching users");
+        }
+      });
+      connection.end();
+    },
+    post: function (user, callback) {
+
+      var connection = db.getConnection();
+
+      connection.connect();
+      connection.query("INSERT INTO messages SET ? ", user, function(err) {
+        if (err) throw err;
+        callback();
+        
+      });
+      connection.end();}
   }
 };
 

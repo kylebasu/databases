@@ -32,8 +32,25 @@ module.exports = {
 
   users: {
     // Ditto as above
-    get: function (req, res) {},
-    post: function (req, res) {}
+    get: function (req, res) {
+      models.users.get(function(rows){
+
+        var result = {
+          results: rows
+        };
+
+        var json = JSON.stringify(result);
+        //console.log(result);
+        res.end(json);
+      });
+    },
+    post: function (req, res) {
+
+      models.users.post(req.body, function(){
+        // implement the response to the client
+        res.end("");
+      });
+    }
   }
 };
 
